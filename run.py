@@ -28,7 +28,7 @@ def get_sales_data():
         if validate_data(sales_data):
             print('Data is valid!')
             break
-    
+
     return sales_data
 
 
@@ -74,7 +74,7 @@ def calculate_surplas_data(sales_row):
     print('Calculating surplas data...\n')
     stock = SHEET.worksheet('stock').get_all_values()
     stock_row = stock[-1]
-    
+
     surplus_data = []
     for stock, sales in zip(stock_row, sales_row):
         surplus = int(stock) - sales
@@ -84,8 +84,8 @@ def calculate_surplas_data(sales_row):
 
 def get_last_5_entries_sales():
     """
-    collects collumns of data from sales worksheet, collecting 
-    the last 5 entries for each sandwich and returns the data as 
+    collects collumns of data from sales worksheet, collecting
+    the last 5 entries for each sandwich and returns the data as
     a list of lists.
     """
     sales = SHEET.worksheet('sales')
@@ -125,8 +125,25 @@ def main():
     sales_columns = get_last_5_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, 'stock')
+    return stock_data
 
 
 print('Welcome to Love Sandwiches Data Automation')
-main()
+stock_data = main()
 
+# challenge code
+
+
+def get_stock_values(data):
+    headings = SHEET.sheet1.row_values(1)
+    stock_list = {}
+    print(len(headings))
+    for i in range(len(headings)):
+        zip(headings, data)
+        stock_list.update({headings[i]: data[i]})
+
+    return stock_list
+
+
+stock_values = get_stock_values(stock_data)
+print(stock_values)
